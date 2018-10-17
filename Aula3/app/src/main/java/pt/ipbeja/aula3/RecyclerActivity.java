@@ -70,7 +70,10 @@ public class RecyclerActivity extends AppCompatActivity {
      */
     public void onGridButtonClicked(View view) {
         // Primeiro vamos ver que valor o utilizador colocou na EditText
-        int cols = Integer.parseInt(gridColsEditText.getText().toString());
+        int cols = 0;
+        if(!gridColsEditText.getText().toString().isEmpty()) {
+            cols = Integer.parseInt(gridColsEditText.getText().toString());
+        }
         setGridLayout(cols);
     }
 
