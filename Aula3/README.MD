@@ -10,7 +10,7 @@
 
 
 ### Sugestão de exercício:
-- Ao pressionar um dos contactos na lista, deve ser lançada uma `Activity` e esta deve exibir todos os dados deste.
+- Ao pressionar um dos contactos na lista, deve ser lançada uma `Activity` e esta deve exibir todos os dados do contacto.
 - Ajuste o layout dos itens. Manipule as margens, padding, cor, etc. para que fique visualmente mais apelativo. Explore os atributos tanto das `Views`s (eg. `TextView`s) como dos `ViewGroup`s (eg. `LinearLayout`) no editor de XML.
 
 #### Outras referências
