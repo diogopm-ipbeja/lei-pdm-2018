@@ -14,5 +14,5 @@
 - Ajuste o layout dos itens. Manipule as margens, padding, cor, etc. para que fique visualmente mais apelativo. Explore os atributos tanto das `Views`s (eg. `TextView`s) como dos `ViewGroup`s (eg. `LinearLayout`) no editor de XML.
 
 #### Outras referências
-http://www.vogella.com/tutorials/AndroidRecyclerView/article.html
-https://medium.com/@droidbyme/android-recyclerview-fca74609725e
+-http://www.vogella.com/tutorials/AndroidRecyclerView/article.html
+-https://medium.com/@droidbyme/android-recyclerview-fca74609725e
