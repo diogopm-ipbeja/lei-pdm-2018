@@ -178,7 +178,7 @@ public class RecyclerActivity extends AppCompatActivity {
             // Com a position, podemos ir à nossa fonte de dados recolher o elemento nessa posição.
             ContactDataSource.Contact contact = this.data.get(position);
             // Depois podemos invocar o método bind e passar-lhe esse elemento como argumento (ver implementação de bind)
-            contactViewHolder.bind(contact);
+            if(position % 3 == 0) contactViewHolder.bind(contact);
         }
 
         // Cada vez que exista alguma alteração à lista, o Adapter precisa de saber quantos elementos
