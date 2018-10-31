@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    //Toast.makeText(MainActivity.this, "Delete btn clicked "+ position, Toast.LENGTH_SHORT).show();
                     adapter.delete(position);
                 }
             });
