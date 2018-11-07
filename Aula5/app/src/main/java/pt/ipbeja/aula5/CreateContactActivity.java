@@ -2,9 +2,9 @@ package pt.ipbeja.aula5;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,7 +40,7 @@ public class CreateContactActivity extends AppCompatActivity {
             finish();
         }
         else {
-            Snackbar.make(findViewById(android.R.id.content), "Name field is empty", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.create_contact_empty_name_alert, Toast.LENGTH_SHORT).show();
             //Toast.makeText(this, "Name field is empty.", Toast.LENGTH_SHORT).show();
         }
 

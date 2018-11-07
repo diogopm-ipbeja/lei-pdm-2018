@@ -4,7 +4,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "messages")
+@Entity(tableName = "messages",
+        foreignKeys = @ForeignKey(entity = Contact.class, parentColumns = "id",
+                childColumns = "contactId",
+                onDelete = ForeignKey.CASCADE))
 public class Message {
 
     @PrimaryKey(autoGenerate = true)

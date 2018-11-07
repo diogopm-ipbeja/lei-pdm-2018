@@ -16,5 +16,12 @@ public interface ContactDao {
     @Query("select * from contacts")
     List<Contact> getAllContacts();
 
+    @Delete
+    int delete(Contact contact);
 
+    @Query("delete from contacts")
+    int deleteAll();
+
+    @Query(("select * from contacts where id = :contactId"))
+    Contact getContact(long contactId);
 }
