@@ -10,17 +10,13 @@ Ao pressionar um dos itens da lista deve ser lançada a `ChatActivity`. Deve ser
     - ContactAdapter
     - ContactViewHolder
         - O layout desta View deve conter uma ImageView com um ícone e uma TextView com o nome do contacto.
-        - Long press para apagar o contacto (AlertDialog para confirmação da acção)
 
 
 - Botão (FloatingActionButton) para lançar a CreateContactActivity
 
-- Menu
-    - Menu item para apagar todos os contactos da lista e respectivas mensagens (AlertDialog para confirmação da acção)
-
 ### CreateContactActivity
 Formulário que permita criar um contacto e adicioná-lo à BD. Deve ter pelo menos um EditText para o utilizador colocar o nome do contacto e um botão para confirmar a acção. Deve validar o input (não deixar que se insira um contacto com o EditText vazio).
-
+Também deve ser possível indicar a localização do contacto.
 ### ChatActivity - Lista de mensagens de um contacto
 - RecyclerView
     - MessageAdapter
@@ -30,17 +26,16 @@ Formulário que permita criar um contacto e adicioná-lo à BD. Deve ter pelo me
 - EditText para escrever uma mensagem
 - Botão para enviar a mensagem
 
-- Menu
-    - Menu item para apagar as mensagens do contacto (AlertDialog para confirmação da acção)
+Ao pressionar o botão de enviar a mensagem, deve ser criada uma Message com o conteúdo da EditText. Esta deve ser inserida na BD e na lista do MessageAdapter. Não esquecer notificar o adapter que um item foi inserido na lista (ver método `notifyItemInserted`).
 
-Ao pressionar o botão de enviar a mensagem, deve ser criada uma Message com o conteúdo da EditText. Esta deve ser inserida na BD e na lista do MessageAdapter. Não esquecer notificar o adapter que um item foi inserido na lista (ver método `notifyItemInserted`). 
+### ContactsMapActivity
+Activity que exibe um mapa com a localização dos contactos. Ao pressionar um `Marker` é exibida uma caixa de texto (snippet) com o nome do contaco. Pressionando esta caixa de texto é lançada a `ChatActivity` para o contacto seleccionado.
 
-    
 ## Dados
 
 ### ChatDatabase (RoomDatabase)
 - Entities
-    - Contact(id, name)
+    - Contact(id, name, coordinates) - \[Coordinates(lat, lng)\]
     - Message(id, contactId, text)
 ___
 - DAOs
