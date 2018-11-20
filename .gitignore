@@ -9,3 +9,5 @@
 /build
 /captures
 .externalNativeBuild
+
+Aula5/app/src/debug/res/values/google_maps_api.xml

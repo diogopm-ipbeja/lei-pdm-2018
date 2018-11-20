@@ -41,20 +41,27 @@ public class ContactsMapActivity extends FragmentActivity implements OnMapReadyC
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
 
-        LatLngBounds bounds = new LatLngBounds(new LatLng(36.568494, -10.448224),new LatLng(42.572301, -5.578860));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
+                List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext()).contactDao().getAllContacts();
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (Contact c : contacts) {
+                    if(c.getCoordinates().isValid()) {
+                        LatLng latLng = new LatLng(c.getCoordinates().getLatitude(), c.getCoordinates().getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(latLng).title(c.getName())).setTag(c);
+                        builder.include(latLng);
+                    }
+                }
 
-        List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext()).contactDao().getAllContacts();
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
 
-        for (Contact c : contacts) {
-            if(c.getCoordinates().isValid()) {
-                LatLng latLng = new LatLng(c.getCoordinates().getLatitude(), c.getCoordinates().getLongitude());
-                mMap.addMarker(new MarkerOptions().position(latLng).title(c.getName())).setTag(c);
+
             }
-        }
+        });
 
 
 
