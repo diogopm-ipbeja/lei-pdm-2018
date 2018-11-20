@@ -8,4 +8,11 @@
         android:title="@string/main_menu_delete_all_contacts"
         app:showAsAction="always"
         app:iconTint="#FFF"/>
+
+    <item
+        android:id="@+id/contacts_map"
+        android:icon="@drawable/ic_map_black_24dp"
+        android:title="@string/main_menu_delete_all_contacts"
+        app:showAsAction="always"
+        app:iconTint="#FFF"/>
 </menu>

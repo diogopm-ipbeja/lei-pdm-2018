@@ -22,6 +22,7 @@ import java.util.List;
 
 import pt.ipbeja.aula5.data.ChatDatabase;
 import pt.ipbeja.aula5.data.Contact;
+import pt.ipbeja.aula5.data.ContactsMapActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,9 +105,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.delete_contacts:
                 showDeleteAllContactsDialog();
                 return true; // Devolvemos true se tratámos desta interação
+            case R.id.contacts_map:
+                showContactsMap();
+                return true;
         }
 
         return super.onOptionsItemSelected(item); // caso contrário, deixamos a Activity procurar outro possível "handler"
+    }
+
+    private void showContactsMap() {
+        ContactsMapActivity.start(this);
     }
 
     private void showDeleteAllContactsDialog() {

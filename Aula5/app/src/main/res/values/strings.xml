@@ -17,19 +17,17 @@
     <string name="activity_add_contact_label">Add contact</string>
     <string name="main_menu_delete_all_contacts">Delete all contacts</string>
 
-    <plurals
-        name="deleted_contacts_count_toast">
-        <item
-            quantity="one">%d contact deleted</item>
+    <plurals name="deleted_contacts_count_toast">
+        <item quantity="one">%d contact deleted</item>
         <item quantity="other">%d contacts deleted</item>
     </plurals>
 
-    <plurals
-        name="deleted_messages_count_toast">
-        <item
-            quantity="one">%d message deleted</item>
+    <plurals name="deleted_messages_count_toast">
+        <item quantity="one">%d message deleted</item>
         <item quantity="other">%d messages deleted</item>
     </plurals>
+    <string name="title_activity_maps">Map</string>
+    <string name="create_contact_no_location_alert">Must specify contact location</string>
 
 
 </resources>
