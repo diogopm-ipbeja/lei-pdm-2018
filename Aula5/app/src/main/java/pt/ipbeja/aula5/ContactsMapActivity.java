@@ -2,7 +2,6 @@ package pt.ipbeja.aula5;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,8 +16,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-import pt.ipbeja.aula5.data.ChatDatabase;
-import pt.ipbeja.aula5.data.Contact;
+import pt.ipbeja.aula5.data.db.ChatDatabase;
+import pt.ipbeja.aula5.data.entity.Contact;
 
 public class ContactsMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -49,8 +48,10 @@ public class ContactsMapActivity extends AppCompatActivity implements OnMapReady
 
                 List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext()).contactDao().getAllContacts();
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                boolean validBounds = false;
                 for (Contact c : contacts) {
                     if(c.getCoordinates().isValid()) {
+                        validBounds = true;
                         LatLng latLng = new LatLng(c.getCoordinates().getLatitude(), c.getCoordinates().getLongitude());
                         Marker marker = mMap.addMarker(
                                 new MarkerOptions()
@@ -64,8 +65,7 @@ public class ContactsMapActivity extends AppCompatActivity implements OnMapReady
                         builder.include(latLng);
                     }
                 }
-
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
+                if(validBounds) googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
 
 
             }

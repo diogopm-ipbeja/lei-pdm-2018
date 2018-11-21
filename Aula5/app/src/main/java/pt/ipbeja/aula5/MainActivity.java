@@ -20,8 +20,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ipbeja.aula5.data.ChatDatabase;
-import pt.ipbeja.aula5.data.Contact;
+import pt.ipbeja.aula5.data.db.ChatDatabase;
+import pt.ipbeja.aula5.data.entity.Contact;
 
 public class MainActivity extends AppCompatActivity {
 

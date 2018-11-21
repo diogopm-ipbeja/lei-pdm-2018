@@ -22,9 +22,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ipbeja.aula5.data.ChatDatabase;
-import pt.ipbeja.aula5.data.Contact;
-import pt.ipbeja.aula5.data.Message;
+import pt.ipbeja.aula5.data.db.ChatDatabase;
+import pt.ipbeja.aula5.data.entity.Contact;
+import pt.ipbeja.aula5.data.entity.Message;
 
 public class ChatActivity extends AppCompatActivity {
 

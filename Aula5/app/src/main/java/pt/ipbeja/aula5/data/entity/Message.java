@@ -1,4 +1,4 @@
-package pt.ipbeja.aula5.data;
+package pt.ipbeja.aula5.data.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;

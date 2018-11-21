@@ -1,4 +1,4 @@
-package pt.ipbeja.aula5.data;
+package pt.ipbeja.aula5.data.entity;
 
 public class Coordinates {
 
