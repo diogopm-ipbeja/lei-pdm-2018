@@ -17,7 +17,8 @@
     <string name="activity_add_contact_label">Adicionar contacto</string>
     <string name="main_menu_delete_all_contacts">Eliminar contactos</string>
     <string name="create_contact_no_location_alert">Tem de dar a localização do contacto</string>
-
+    <string name="contact_map_marker_snippet">Toque para conversar</string>
+    <string name="title_activity_maps">Mapa de contactos</string>
 
     <plurals
         name="deleted_contacts_count_toast">

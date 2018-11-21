@@ -28,7 +28,6 @@ public class CreateContactActivity extends AppCompatActivity implements OnMapRea
 
     private EditText contactNameInput;
 
-
     private Marker contactMarker = null;
 
     public static void start(Context context) {

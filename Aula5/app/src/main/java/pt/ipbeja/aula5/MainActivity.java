@@ -22,7 +22,6 @@ import java.util.List;
 
 import pt.ipbeja.aula5.data.ChatDatabase;
 import pt.ipbeja.aula5.data.Contact;
-import pt.ipbeja.aula5.data.ContactsMapActivity;
 
 public class MainActivity extends AppCompatActivity {
 

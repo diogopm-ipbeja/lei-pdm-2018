@@ -1,10 +1,10 @@
-package pt.ipbeja.aula5.data;
+package pt.ipbeja.aula5;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.ViewTreeObserver;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,10 +17,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-import pt.ipbeja.aula5.ChatActivity;
-import pt.ipbeja.aula5.R;
+import pt.ipbeja.aula5.data.ChatDatabase;
+import pt.ipbeja.aula5.data.Contact;
 
-public class ContactsMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ContactsMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -52,7 +52,15 @@ public class ContactsMapActivity extends FragmentActivity implements OnMapReadyC
                 for (Contact c : contacts) {
                     if(c.getCoordinates().isValid()) {
                         LatLng latLng = new LatLng(c.getCoordinates().getLatitude(), c.getCoordinates().getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(c.getName())).setTag(c);
+                        Marker marker = mMap.addMarker(
+                                new MarkerOptions()
+                                        .position(latLng)
+                                        .title(c.getName())
+                                        .snippet(getString(R.string.contact_map_marker_snippet))
+                        );
+
+                        marker.setTag(c);
+
                         builder.include(latLng);
                     }
                 }

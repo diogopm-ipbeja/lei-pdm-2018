@@ -26,8 +26,9 @@
         <item quantity="one">%d message deleted</item>
         <item quantity="other">%d messages deleted</item>
     </plurals>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Contacts Map</string>
     <string name="create_contact_no_location_alert">Must specify contact location</string>
+    <string name="contact_map_marker_snippet">Tap to chat</string>
 
 
 </resources>
