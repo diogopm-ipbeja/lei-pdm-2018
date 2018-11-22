@@ -31,14 +31,13 @@
         android:maxLines="1"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/include"
+        app:layout_constraintStart_toEndOf="@+id/contact_chip"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/full_names" />
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/contact_chip"
         layout="@layout/contact_chip"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -46,6 +45,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"
+        android:visibility="invisible"/>
+
+
+    <ImageView
+        android:id="@+id/contact_photo"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"
+        android:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>

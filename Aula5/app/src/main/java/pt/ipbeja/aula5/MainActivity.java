@@ -1,6 +1,8 @@
 package pt.ipbeja.aula5;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -14,9 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -192,6 +196,8 @@ public class MainActivity extends AppCompatActivity {
 
         final TextView name;
         final TextView initials;
+        final ImageView photo; // Se quiserem utilizar ImageViews circulares, podem utilizar a biblioteca CircleImageView (https://github.com/hdodenhof/CircleImageView)
+        final View initialsChip;
 
 
         private ContactViewHolder(@NonNull View itemView) {
@@ -200,12 +206,30 @@ public class MainActivity extends AppCompatActivity {
             itemView.setOnLongClickListener(this); // também existe um Listener para clicks longos! ver #onLongClick abaixo
             name = itemView.findViewById(R.id.contact_name);
             initials = itemView.findViewById(R.id.contact_initials);
+            photo = itemView.findViewById(R.id.contact_photo);
+            initialsChip = itemView.findViewById(R.id.contact_chip);
         }
 
         private void bind(Contact contact) {
             this.contact = contact;
             name.setText(contact.getName());
-            initials.setText(contact.getInitials());
+            if(contact.getPhoto() != null && contact.getPhoto().length != 0) {
+                photo.setImageBitmap(bitmapFromBytes(contact.getPhoto()));
+                initialsChip.setVisibility(View.INVISIBLE);
+                photo.setVisibility(View.VISIBLE);
+            }
+            else {
+                initials.setText(contact.getInitials());
+                initialsChip.setVisibility(View.VISIBLE);
+                photo.setVisibility(View.INVISIBLE);
+            }
+
+        }
+
+        private Bitmap bitmapFromBytes(byte[] photoBytes) {
+            ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(photoBytes);
+            Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+            return bitmap;
         }
 
         @Override
