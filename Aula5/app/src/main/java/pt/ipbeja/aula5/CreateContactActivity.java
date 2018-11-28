@@ -59,6 +59,8 @@ public class CreateContactActivity extends AppCompatActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_contact);
 
+
+
         // Se a instance state não é null, terá alguma coisa lá guardada
         if(savedInstanceState != null) {
             // idêntico aos extras dos intents (de facto os Intents guardam um Bundle mas oferecem métodos de conveniência para acesso a estes campos)
@@ -119,8 +121,6 @@ public class CreateContactActivity extends AppCompatActivity implements OnMapRea
             else Snackbar.make(findViewById(android.R.id.content), R.string.create_contact_no_location_alert, Toast.LENGTH_SHORT).show();
         }
 
-
-
     }
 
     @Override
@@ -154,8 +154,12 @@ public class CreateContactActivity extends AppCompatActivity implements OnMapRea
     }
 
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
+
+
         // Ler https://developer.android.com/reference/android/app/Activity#onSaveInstanceState(android.os.Bundle)
 
         // Aqui guardamos no Bundle as coisas que queremos guardar antes da Activity ser destruida

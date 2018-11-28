@@ -19,6 +19,8 @@
     <string name="create_contact_no_location_alert">Tem de dar a localização do contacto</string>
     <string name="contact_map_marker_snippet">Toque para conversar</string>
     <string name="title_activity_maps">Mapa de contactos</string>
+    <string name="main_menu_sort_az">Ordenar A-Z</string>
+    <string name="main_menu_sort_za">Ordenar Z-A</string>
 
     <plurals
         name="deleted_contacts_count_toast">

@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import pt.ipbeja.aula5.data.db.ChatDatabase;
@@ -30,8 +32,9 @@ import pt.ipbeja.aula5.data.entity.Contact;
 public class MainActivity extends AppCompatActivity {
 
 
-
+    private RecyclerView contactList;
     private ContactAdapter contactAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     private View addContactHint;
 
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         addContactHint = findViewById(R.id.add_contact_hint_wrapper);
         FloatingActionButton createContactFab = findViewById(R.id.create_contact_fab);
-        RecyclerView contactList = findViewById(R.id.contact_list);
+        contactList = findViewById(R.id.contact_list);
 
 
         createContactFab.setOnLongClickListener(new View.OnLongClickListener() {
@@ -64,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         contactAdapter = new ContactAdapter();
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
 
         contactList.setAdapter(contactAdapter);
-        contactList.setLayoutManager(llm);
+        contactList.setLayoutManager(linearLayoutManager);
 
 
     }
@@ -76,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         List<Contact> contacts = ChatDatabase.getInstance(this).contactDao().getAllContacts();
-        contactAdapter.setData(contacts);
+
+        contactAdapter.setData(contacts, true);
         setAddContactHintVisible(contacts.size() == 0); // Se o número de contactos é 0, mostramos a View com a dica para adicionar contactos
 
     }
@@ -96,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
         // Fazer inflate do xml do menu
 
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem item = menu.findItem(R.id.sort_a_z);
+        item.setChecked(true);
+
+        //if(menu instanceof MenuBuilder) ((MenuBuilder) menu).setOptionalIconsVisible(true);
         // Temos de devolver true para o menu aparecer
         return true;
     }
@@ -104,12 +113,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Método de callback de interação com os itens do menu
 
+
         switch (item.getItemId()) { // Vamos buscar o id do item...
             case R.id.delete_contacts:
                 showDeleteAllContactsDialog();
                 return true; // Devolvemos true se tratámos desta interação
             case R.id.contacts_map:
                 showContactsMap();
+                return true;
+            case R.id.sort_a_z:
+                contactAdapter.sort(true);
+                item.setChecked(true);
+                return true;
+            case R.id.sort_z_a:
+                contactAdapter.sort(false);
+                item.setChecked(true);
                 return true;
         }
 
@@ -251,8 +269,21 @@ public class MainActivity extends AppCompatActivity {
 
         private List<Contact> data = new ArrayList<>();
 
-        private void setData(List<Contact> data) {
+        private void setData(List<Contact> data, boolean sort) {
             this.data = data;
+            sort(sort);
+        }
+
+        private void sort(final boolean sorting) {
+
+            Collections.sort(data, new Comparator<Contact>() {
+                @Override
+                public int compare(Contact o1, Contact o2) {
+                    int sort = o1.getName().compareTo(o2.getName());
+                    if(sorting) return sort;
+                    else return -sort;
+                }
+            });
             notifyDataSetChanged();
         }
 

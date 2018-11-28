@@ -15,7 +15,7 @@ public interface ContactDao {
     @Insert
     long insert(Contact contact);
 
-    @Query("select * from contacts")
+    @Query("select * from contacts order by name asc")
     List<Contact> getAllContacts();
 
     @Delete
