@@ -1,6 +1,8 @@
 package pt.ipbeja.aula5;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -31,6 +33,8 @@ import pt.ipbeja.aula5.data.entity.Contact;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String MAIN_PREFS = "main_prefs";
+    private static final String FIRST_TIME_PREF = "first_time";
 
     private RecyclerView contactList;
     private ContactAdapter contactAdapter;
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     /**
      * Define a visibilidade da View que indica que não existem contactos (ver activity_main.xml)
      * @param visible Visível
@@ -138,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         ContactsMapActivity.start(this);
     }
 
+
     private void showDeleteAllContactsDialog() {
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -166,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         contactAdapter.removeAll();
         setAddContactHintVisible(true);
     }
+
 
     private void showDeleteContactDialog(final Contact contact) {
 
@@ -274,13 +281,13 @@ public class MainActivity extends AppCompatActivity {
             sort(sort);
         }
 
-        private void sort(final boolean sorting) {
+        private void sort(final boolean asc) {
 
             Collections.sort(data, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
                     int sort = o1.getName().compareTo(o2.getName());
-                    if(sorting) return sort;
+                    if(asc) return sort;
                     else return -sort;
                 }
             });
