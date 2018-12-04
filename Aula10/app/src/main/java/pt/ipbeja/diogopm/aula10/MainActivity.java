@@ -1,13 +1,10 @@
 package pt.ipbeja.diogopm.aula10;
 
-import android.app.Dialog;
-import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,11 +13,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pt.ipbeja.diogopm.aula10.data.Note;
-import pt.ipbeja.diogopm.aula10.data.NoteDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         this.adapter = new NoteAdapter();
         this.noteList.setAdapter(adapter);
 
-        // TODO start observing the 'notes' table
+        // TODO start observing the 'notes' table and notify the adapter when it emits data
 
     }
 
@@ -83,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         EditText title = d.findViewById(R.id.note_title);
                         EditText description = d.findViewById(R.id.note_description);
 
-                        // TODO save new note to DB aynchronously
+                        // TODO save new note to DB asynchronously
 
                     }
                 })

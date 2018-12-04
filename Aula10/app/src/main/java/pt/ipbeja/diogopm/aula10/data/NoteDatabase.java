@@ -1,13 +1,9 @@
 package pt.ipbeja.diogopm.aula10.data;
 
-import android.arch.persistence.db.SupportSQLiteOpenHelper;
 import android.arch.persistence.room.Database;
-import android.arch.persistence.room.DatabaseConfiguration;
-import android.arch.persistence.room.InvalidationTracker;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 @Database(entities = {Note.class}, version = 1, exportSchema = false)
 public abstract class NoteDatabase extends RoomDatabase {
@@ -19,7 +15,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
         if(instance == null) {
             instance = Room.databaseBuilder(context, NoteDatabase.class, "notes_db")
-                    .allowMainThreadQueries()
+                    .allowMainThreadQueries() // TODO remove this!
                     .build();
         }
         return instance;
