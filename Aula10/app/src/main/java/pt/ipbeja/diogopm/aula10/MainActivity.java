@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,10 +23,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView noteList;
     private NoteAdapter adapter;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.progressBar = findViewById(R.id.save_progress);
         this.noteList = findViewById(R.id.note_list);
         this.noteList.setLayoutManager(new LinearLayoutManager(this));
         this.adapter = new NoteAdapter();
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         EditText title = d.findViewById(R.id.note_title);
                         EditText description = d.findViewById(R.id.note_description);
 
-                        // TODO save new note to DB asynchronously
+                        // TODO save new note to DB asynchronously (Thread or AsyncTask)
 
                     }
                 })
@@ -135,4 +140,7 @@ public class MainActivity extends AppCompatActivity {
             return data == null ? 0 : data.size();
         }
     }
+
+    // TODO add a new inner class 'SaveNewNoteTask' that extends AsyncTask
+
 }

@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "notes")
 public class Note {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     private String title;
@@ -21,8 +21,7 @@ public class Note {
 
     @Ignore
     public Note(String title, String note) {
-        this.title = title;
-        this.note = note;
+        this(0, title, note);
     }
 
     public long getId() {
