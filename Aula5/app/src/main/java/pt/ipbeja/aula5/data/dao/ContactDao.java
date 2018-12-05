@@ -32,4 +32,5 @@ public interface ContactDao {
 
     @Query(("select * from contacts where id = :contactId"))
     Contact getContact(long contactId);
+
 }
