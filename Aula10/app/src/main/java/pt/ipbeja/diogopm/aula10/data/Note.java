@@ -1,5 +1,6 @@
 package pt.ipbeja.diogopm.aula10.data;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
@@ -11,17 +12,26 @@ public class Note {
     private long id;
 
     private String title;
+
     private String note;
 
-    public Note(long id, String title, String note) {
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] photoBytes;
+
+    @Ignore
+    public Note() {
+    }
+
+    public Note(long id, String title, String note, byte[] photoBytes) {
         this.id = id;
         this.title = title;
         this.note = note;
+        this.photoBytes = photoBytes;
     }
 
     @Ignore
-    public Note(String title, String note) {
-        this(0, title, note);
+    public Note(String title, String note, byte[] photoBytes) {
+        this(0, title, note, photoBytes);
     }
 
     public long getId() {
@@ -46,5 +56,14 @@ public class Note {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    // todo exclude this field from Firebase-Firestore
+    public byte[] getPhotoBytes() {
+        return photoBytes;
+    }
+
+    public void setPhotoBytes(byte[] photoBytes) {
+        this.photoBytes = photoBytes;
     }
 }

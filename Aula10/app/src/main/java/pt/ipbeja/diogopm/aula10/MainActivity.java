@@ -1,22 +1,21 @@
 package pt.ipbeja.diogopm.aula10;
 
-import android.content.DialogInterface;
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
 
 import pt.ipbeja.diogopm.aula10.data.Note;
+import pt.ipbeja.diogopm.aula10.data.NoteDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +35,26 @@ public class MainActivity extends AppCompatActivity {
         this.adapter = new NoteAdapter();
         this.noteList.setAdapter(adapter);
 
-        // TODO start observing the 'notes' table and notify the adapter when it emits data
+        NoteDatabase.getInstance(getApplicationContext())
+                .noteDao()
+                .getNotes()
+                .observe(this, new Observer<List<Note>>() {
+                    @Override
+                    public void onChanged(@android.support.annotation.Nullable List<Note> notes) {
+                        adapter.setData(notes);
+                    }
+                });
+
+
+
+        /*
+        FirebaseFirestore instance = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        instance.setFirestoreSettings(settings);
+        */
+
 
     }
 
@@ -46,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         System.out.println("onStart");
+
     }
 
     @Override
@@ -70,29 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddNoteClick(View view) {
 
-        new AlertDialog.Builder(this)
-                .setTitle("Add note")
-                .setView(R.layout.note_dialog)
-                .setPositiveButton("Add note", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-
-
-                        AlertDialog d = (AlertDialog) dialog;
-                        EditText title = d.findViewById(R.id.note_title);
-                        EditText description = d.findViewById(R.id.note_description);
-
-                        // TODO save new note to DB asynchronously (Thread or AsyncTask)
-
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-
+        CreateNoteActivity.start(this);
     }
 
-    private static class NoteViewHolder extends RecyclerView.ViewHolder {
+    private class NoteViewHolder extends RecyclerView.ViewHolder {
 
         private Note note;
 
@@ -103,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
             super(itemView);
             title = itemView.findViewById(R.id.note_title);
             description = itemView.findViewById(R.id.note_description);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewNoteActivity.start(MainActivity.this, note.getId());
+                }
+            });
         }
 
         void bind(Note note) {
@@ -140,7 +146,5 @@ public class MainActivity extends AppCompatActivity {
             return data == null ? 0 : data.size();
         }
     }
-
-    // TODO add a new inner class 'SaveNewNoteTask' that extends AsyncTask
 
 }

@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {Note.class}, version = 1, exportSchema = false)
+@Database(entities = {Note.class}, version = 2, exportSchema = false)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
@@ -15,7 +15,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
         if(instance == null) {
             instance = Room.databaseBuilder(context, NoteDatabase.class, "notes_db")
-                    .allowMainThreadQueries() // TODO remove this!
+                    .fallbackToDestructiveMigration()
                     .build();
         }
         return instance;

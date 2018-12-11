@@ -16,6 +16,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateNoteActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="pt.ipbeja.diogopm.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".ViewNoteActivity"></activity>
     </application>
 
 </manifest>
