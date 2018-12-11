@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,11 +31,13 @@ import java.util.List;
 
 import pt.ipbeja.aula5.data.db.ChatDatabase;
 import pt.ipbeja.aula5.data.entity.Contact;
+import pt.ipbeja.aula5.prefs.PreferencesHelper;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String MAIN_PREFS = "main_prefs";
     private static final String FIRST_TIME_PREF = "first_time";
+    private static final String SORTING_PREF = "sorting";
 
     private RecyclerView contactList;
     private ContactAdapter contactAdapter;
@@ -84,11 +87,39 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         List<Contact> contacts = ChatDatabase.getInstance(this).contactDao().getAllContacts();
 
-        contactAdapter.setData(contacts, true);
+        boolean sortedAz = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
+
+        contactAdapter.setData(contacts, sortedAz);
         setAddContactHintVisible(contacts.size() == 0); // Se o número de contactos é 0, mostramos a View com a dica para adicionar contactos
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE);
+
+        boolean firstTime = sharedPreferences.getBoolean(FIRST_TIME_PREF, true);
+
+        if(firstTime) {
+
+            sharedPreferences.edit().putBoolean(FIRST_TIME_PREF, false).apply();
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Welcome")
+                    .setMessage("Welcome to our new app")
+                    .setPositiveButton("OK", null)
+                    .show();
+
+        }
+
+
+
+    }
 
     /**
      * Define a visibilidade da View que indica que não existem contactos (ver activity_main.xml)
@@ -106,12 +137,19 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.main, menu);
 
-        MenuItem item = menu.findItem(R.id.sort_a_z);
-        item.setChecked(true);
 
         //if(menu instanceof MenuBuilder) ((MenuBuilder) menu).setOptionalIconsVisible(true);
+
         // Temos de devolver true para o menu aparecer
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean sorting = getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).getBoolean(SORTING_PREF, true);
+        MenuItem item = menu.findItem(sorting ? R.id.sort_a_z : R.id.sort_z_a);
+        item.setChecked(true);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -126,13 +164,17 @@ public class MainActivity extends AppCompatActivity {
             case R.id.contacts_map:
                 showContactsMap();
                 return true;
+
             case R.id.sort_a_z:
                 contactAdapter.sort(true);
                 item.setChecked(true);
+                getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).edit().putBoolean(SORTING_PREF, true).apply();
                 return true;
+
             case R.id.sort_z_a:
                 contactAdapter.sort(false);
                 item.setChecked(true);
+                getSharedPreferences(MAIN_PREFS, Context.MODE_PRIVATE).edit().putBoolean(SORTING_PREF, false).apply();
                 return true;
         }
 

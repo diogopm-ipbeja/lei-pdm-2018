@@ -2,6 +2,7 @@ package pt.ipbeja.aula5.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 
 public class PreferencesHelper {
 
@@ -38,6 +39,12 @@ public class PreferencesHelper {
         return getPrefs(context).getString(key, defValue);
     }
 
+
+    // -----
+
+    public static boolean getFirstTimeRunning(Context context, boolean defValue) {
+        return getBoolean(context, "sdas", defValue);
+    }
 
     public static void setContactListSort(Context context, boolean naturalSorting) {
         set(context, CONTACT_LIST_SORT, naturalSorting);
