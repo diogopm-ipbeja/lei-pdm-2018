@@ -11,6 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
@@ -51,7 +59,6 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private void takePicture() {
 
-
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(takePictureIntent, IMAGE_CAPTURE_REQUEST_CODE);
     }
@@ -59,31 +66,75 @@ public class CreateNoteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_CAPTURE_REQUEST_CODE && resultCode == RESULT_OK) {
+
+
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            notePhoto.setImageBitmap(imageBitmap);
 
+            // podemos guardar já os bytes do thumbnail para depois colocar na Firebase Storage
             this.thumbnailBytes = ImageUtils.getBytesFromBitmap(imageBitmap);
 
-            notePhoto.setImageBitmap(imageBitmap);
+            // todo fetch the actual photo file (not just the thumbnail)
+            // todo consider saving the thumbnail bytes on the Firestore document (for a quick preview while the actual photo is being downloaded)
         }
     }
 
 
     public void onSaveNoteClick(View view) {
-        // todo validate field (including photo) ...
+        // todo validate fields (including photo) ...
 
         Note note = new Note(
                 noteTitleEditText.getText().toString(),
                 noteDescriptionEditText.getText().toString(),
                 thumbnailBytes);
 
+        // Lançamos uma AsyncTask para guardar os dados na BD
         new SaveNoteTask().execute(note);
 
     }
 
 
     private void uploadNote(Note note) {
-        // todo save note to Firebase-Firestore and photo bytes to Firebase-Storage (called on SaveNoteTask#onPostExecute)
+
+        // Colocamos os dados da Note (excepto os bytes do thumbnail - ver @Exclude na class Note) na Firestore
+        // 1.
+        FirebaseFirestore.getInstance()
+                .collection("notes")
+                .add(note)
+                .addOnSuccessListener(this, new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference ref) {
+                        // (*)
+                    }
+                });
+
+        // E os bytes na Storage
+        // 2.
+        FirebaseStorage.getInstance()
+                .getReference()
+                .child(note.getId() + ".jpg")
+                .putBytes(thumbnailBytes) // Podemos também colocar um File (#putFile)
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot snap) {
+                        int progress = (int) ((snap.getBytesTransferred() / snap.getTotalByteCount()) * 100);
+                        System.out.println("Progress -> " + progress);
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        finish(); // Quando o upload terminar, podemos terminar a Activity
+                    }
+                });
+
+
+        // Atenção que as chamadas acima são assíncronas. Apesar de altamente improvável,
+        // pode acontecer que o upload dos bytes termine antes do upload da Note (1.)
+        // Para contornar isto, podiamos invocar o método de enviar os bytes (2.) dentro do OnSuccessListener
+        // do método de envio da Note (*)
+
     }
 
     private class SaveNoteTask extends AsyncTask<Note, Void, Note> {
@@ -102,7 +153,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Note note) {
-            // todo upload note to Firebase-Firestore and image to Firebase-Storage
+            // Depois da nota ser persistida na BD, vamos colocar também estes dados na Firebase
             uploadNote(note);
         }
     }

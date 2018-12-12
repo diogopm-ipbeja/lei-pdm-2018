@@ -7,6 +7,9 @@ import java.io.ByteArrayOutputStream;
 
 public class ImageUtils {
 
+    private ImageUtils() {
+    }
+
     public static byte[] getBytesFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream blob = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, blob);

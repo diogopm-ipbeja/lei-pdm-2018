@@ -18,6 +18,9 @@ public abstract class NoteDatabase extends RoomDatabase {
                     .fallbackToDestructiveMigration()
                     .build();
         }
+
+
+
         return instance;
     }
 

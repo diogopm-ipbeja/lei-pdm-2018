@@ -11,12 +11,6 @@
         android:layout_height="wrap_content"
         tools:context=".CreateNoteActivity">
 
-        android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".CreateNoteActivity"
-        >
-
         <android.support.v7.widget.CardView
             android:id="@+id/photo_card"
             android:layout_width="0dp"
@@ -100,6 +94,11 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/note_card" />
 
+
+
+
     </android.support.constraint.ConstraintLayout>
+
+
 
 </ScrollView>

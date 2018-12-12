@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.google.firebase.firestore.Exclude;
+
 @Entity(tableName = "notes")
 public class Note {
 
@@ -58,7 +60,7 @@ public class Note {
         this.note = note;
     }
 
-    // todo exclude this field from Firebase-Firestore
+    @Exclude // Para excluir o atributo na Firestore (esta annotation só funciona nos campos se estes forem public)
     public byte[] getPhotoBytes() {
         return photoBytes;
     }

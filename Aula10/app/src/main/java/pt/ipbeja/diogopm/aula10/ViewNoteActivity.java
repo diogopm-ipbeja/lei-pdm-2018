@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+
 import pt.ipbeja.diogopm.aula10.data.Note;
 import pt.ipbeja.diogopm.aula10.data.NoteDatabase;
 import pt.ipbeja.diogopm.aula10.utils.ImageUtils;
@@ -42,7 +45,7 @@ public class ViewNoteActivity extends AppCompatActivity {
 
         long noteId = getIntent().getLongExtra(NOTE_ID, 0);
 
-        // Check if we have a valid id before doing anything
+
         if(noteId == 0) {
             finish();
             return;
@@ -54,7 +57,7 @@ public class ViewNoteActivity extends AppCompatActivity {
         this.progressBar = findViewById(R.id.loading);
 
 
-        // Start observing the Note
+
         NoteDatabase.getInstance(getApplicationContext())
                 .noteDao()
                 .getNote(noteId)
@@ -81,12 +84,31 @@ public class ViewNoteActivity extends AppCompatActivity {
         noteDescription.setText(currentNote.getNote());
 
         if(currentNote.getPhotoBytes() != null) {
+            // Se a Note já tem os bytes da foto...
             setPhoto();
         }
         else {
             progressBar.setVisibility(View.VISIBLE);
+            // Caso não tenha, vamos buscar à Storage
+            FirebaseStorage
+                    .getInstance()
+                    .getReference()
+                    .child(currentNote.getId() + ".jpg")
+                    .getBytes(1024 * 1024)
+                    .addOnSuccessListener(this, new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            progressBar.setVisibility(View.GONE);
+                            currentNote.setPhotoBytes(bytes);
+                            // Depois de obter os bytes, vamos actualizar o registo
+                            new UpdateNoteTask().execute(currentNote);
+                            // Note que, depois de actualizar o registo, como no #onCreate estamos
+                            // a observar esse registo, vai ser despoletada uma notificação
+                            // e o método #loadNote será novamente invocado e desta vez a Note
+                            // já tem os bytes da foto!
+                        }
+                    });
 
-            // todo fetch image from Firebase-Storage and update the db record (photoBytes)
 
         }
 

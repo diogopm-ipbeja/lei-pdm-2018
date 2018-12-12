@@ -18,7 +18,7 @@ public interface BaseDao<T> {
     @Update
     int update(T obj);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     long[] insert(List<T> obj);
 
     @Delete

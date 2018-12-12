@@ -12,7 +12,16 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import pt.ipbeja.diogopm.aula10.data.Note;
 import pt.ipbeja.diogopm.aula10.data.NoteDatabase;
@@ -35,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         this.adapter = new NoteAdapter();
         this.noteList.setAdapter(adapter);
 
+
+        // Começamos a observar alterações na tabela das Notes
         NoteDatabase.getInstance(getApplicationContext())
                 .noteDao()
                 .getNotes()
@@ -44,17 +55,6 @@ public class MainActivity extends AppCompatActivity {
                         adapter.setData(notes);
                     }
                 });
-
-
-
-        /*
-        FirebaseFirestore instance = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(false)
-                .build();
-        instance.setFirestoreSettings(settings);
-        */
-
 
     }
 
